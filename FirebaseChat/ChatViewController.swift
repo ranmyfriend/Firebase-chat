@@ -45,7 +45,6 @@ class ChatViewController: UIViewController {
         ]
         NSLayoutConstraint.activate(tableViewConstraints)
     }
-
   
 }
 
@@ -61,6 +60,7 @@ extension ChatViewController: UITableViewDataSource {
         cell.incoming(message.incoming)
         return cell
     }
+    
 }
 
 extension ChatViewController: UITableViewDelegate {
