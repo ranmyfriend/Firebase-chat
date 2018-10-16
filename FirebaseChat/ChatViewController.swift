@@ -11,6 +11,7 @@ import UIKit
 class ChatViewController: UIViewController {
 
     private let tableView =  UITableView()
+    private let newMessageField = UITextView()
     private var messages = [Message]()
     private let cellIdentifier = "Cell"
     
@@ -34,11 +35,37 @@ class ChatViewController: UIViewController {
         newMessageArea.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(newMessageArea)
 
+        newMessageField.translatesAutoresizingMaskIntoConstraints = false
+        newMessageArea.addSubview(newMessageField)
+        newMessageField.isScrollEnabled = false
+
+        let sendButton = UIButton()
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+        newMessageArea.addSubview(sendButton)
+        sendButton.setTitle("Send", for: .normal)
+        sendButton.setContentHuggingPriority(UILayoutPriority(rawValue: 251), for: .horizontal)
+
         let messageAreaConstraints: [NSLayoutConstraint] = [
-            newMessageArea.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            newMessageArea.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            newMessageArea.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            newMessageArea.heightAnchor.constraint(equalToConstant: 50)
+            newMessageArea.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor),
+            newMessageArea.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor),
+            newMessageArea.bottomAnchor.constraint(
+                equalTo: view.bottomAnchor),
+
+            newMessageField.leadingAnchor.constraint(
+                equalTo: newMessageArea.leadingAnchor,constant: 10),
+            newMessageField.centerYAnchor.constraint(
+                equalTo: newMessageArea.centerYAnchor),
+
+            sendButton.trailingAnchor.constraint(
+                equalTo: newMessageArea.trailingAnchor,constant: -10),
+            newMessageField.trailingAnchor.constraint(
+                equalTo: sendButton.leadingAnchor, constant: -10),
+            sendButton.centerYAnchor.constraint(
+                equalTo: newMessageField.centerYAnchor),
+            newMessageArea.heightAnchor.constraint(
+                equalTo: newMessageField.heightAnchor, constant: 20)
         ]
         NSLayoutConstraint.activate(messageAreaConstraints)
         
