@@ -10,9 +10,10 @@ import UIKit
 
 class ChatViewController: UIViewController {
 
-    private let tableView =  UITableView()
+    private let tableView =  UITableView(frame: .zero, style: .grouped)
     private let newMessageField = UITextView()
-    private var messages = [Message]()
+    private var sections = [Date : [Message]]()
+    private var dates = [Date]()
     private let cellIdentifier = "Cell"
     private var bottomConstraint: NSLayoutConstraint!
     
@@ -21,14 +22,19 @@ class ChatViewController: UIViewController {
         title = "Chats"
         
         var localIncoming = true
+        var date = Date(timeIntervalSince1970: 1100000000)
         
         for i in 0...10 {
             let m = Message()
             //            m.text = String(i)
             m.text = "This is Longer Text. Do you like this?"
+            m.timestamp = date
             m.incoming = localIncoming
             localIncoming = !localIncoming
-            messages.append(m)
+            addMessage(message: m)
+            if i%2 == 0 {
+                date = Date(timeInterval: 60 * 60 * 24, since: date)
+            }
         }
 
         let newMessageArea = UIView()
@@ -97,6 +103,11 @@ class ChatViewController: UIViewController {
         view.addGestureRecognizer(tapRecoginzer)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.scrollToBottom()
+    }
+
     @objc func handleSingleTap(recoginzer: UITapGestureRecognizer) {
         view.endEditing(true)
     }
@@ -118,6 +129,7 @@ class ChatViewController: UIViewController {
             UIView.animate(withDuration: animationDuration) {
                 self.view.layoutIfNeeded()
             }
+            tableView.scrollToBottom()
         }
     }
 
@@ -126,25 +138,94 @@ class ChatViewController: UIViewController {
         let message = Message()
         message.text = text
         message.incoming = false
-        messages.append(message)
+        message.timestamp = Date()
+        addMessage(message: message)
+        newMessageField.text = ""
         tableView.reloadData()
-        tableView.scrollToRow(at: IndexPath(row: tableView.numberOfRows(inSection: 0)-1, section: 0), at: .bottom, animated: true)
+        tableView.scrollToBottom()
+        view.endEditing(true)
     }
+
+    func addMessage(message: Message) {
+        guard let date = message.timestamp else {return}
+        let calendar = NSCalendar.current
+        let startDay = calendar.startOfDay(for: date)
+
+        var messages = sections[startDay]
+        if messages == nil {
+            dates.append(startDay)
+            messages = [Message]()
+        }
+        messages!.append(message)
+        sections[startDay] = messages
+    }
+
+
 
 }
 
 extension ChatViewController: UITableViewDataSource {
+
+    func getMessages(section: Int) ->[Message] {
+        let date = dates[section]
+        return sections[date]!
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return dates.count
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
+        return getMessages(section: section).count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatCell else {fatalError()}
+        let messages = getMessages(section: indexPath.section)
         let message = messages[indexPath.row]
         cell.messageLabel.text = message.text
         cell.incoming(message.incoming)
         cell.separatorInset = UIEdgeInsetsMake(0, tableView.bounds.size.width, 0, 0)
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .clear
+        let paddingView = UIView()
+        view.addSubview(paddingView)
+        paddingView.translatesAutoresizingMaskIntoConstraints = false
+        let dateLabel = UILabel()
+        paddingView.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        let constraints: [NSLayoutConstraint] = [
+
+            paddingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            paddingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            dateLabel.centerXAnchor.constraint(equalTo: paddingView.centerXAnchor),
+            dateLabel.centerYAnchor.constraint(equalTo: paddingView.centerYAnchor),
+            paddingView.heightAnchor.constraint(equalTo: dateLabel.heightAnchor, constant: 5),
+            paddingView.widthAnchor.constraint(equalTo: dateLabel.widthAnchor, constant:10),
+            view.heightAnchor.constraint(equalTo: paddingView.heightAnchor)
+        ]
+
+        NSLayoutConstraint.activate(constraints)
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, YYYY"
+        dateLabel.text = formatter.string(from: dates[section])
+        paddingView.layer.cornerRadius = 10
+        paddingView.layer.masksToBounds = true
+        paddingView.backgroundColor = UIColor(red: 153/255, green: 204/255, blue: 255/255, alpha: 1.0)
+        return view
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return UIView()
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
     }
     
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07ACAC87217B67B200ECF0EA /* UITableView+Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ACAC86217B67B200ECF0EA /* UITableView+Scroll.swift */; };
 		C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE644E2175F8620090C1FA /* AppDelegate.swift */; };
 		C6EE64512175F8620090C1FA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64502175F8620090C1FA /* ChatViewController.swift */; };
 		C6EE64572175F8620090C1FA /* FirebaseChat.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64552175F8620090C1FA /* FirebaseChat.xcdatamodeld */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07ACAC86217B67B200ECF0EA /* UITableView+Scroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Scroll.swift"; sourceTree = "<group>"; };
 		C6EE644B2175F8620090C1FA /* FirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6EE644E2175F8620090C1FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6EE64502175F8620090C1FA /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				C6EE644E2175F8620090C1FA /* AppDelegate.swift */,
 				C6EE64502175F8620090C1FA /* ChatViewController.swift */,
+				07ACAC86217B67B200ECF0EA /* UITableView+Scroll.swift */,
 				C6EE64742176038D0090C1FA /* ChatCell.swift */,
 				C6EE64712175FEC20090C1FA /* Message.swift */,
 				C6EE64582175F8760090C1FA /* Assets.xcassets */,
@@ -208,6 +211,7 @@
 				C6EE64722175FEC20090C1FA /* Message.swift in Sources */,
 				C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */,
 				C6EE64752176038D0090C1FA /* ChatCell.swift in Sources */,
+				07ACAC87217B67B200ECF0EA /* UITableView+Scroll.swift in Sources */,
 				C6EE64572175F8620090C1FA /* FirebaseChat.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
