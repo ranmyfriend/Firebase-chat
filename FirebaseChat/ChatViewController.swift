@@ -14,6 +14,7 @@ class ChatViewController: UIViewController {
     private let newMessageField = UITextView()
     private var messages = [Message]()
     private let cellIdentifier = "Cell"
+    private var bottomConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +24,7 @@ class ChatViewController: UIViewController {
         
         for i in 0...10 {
             let m = Message()
-//            m.text = String(i)
+            //            m.text = String(i)
             m.text = "This is Longer Text. Do you like this?"
             m.incoming = localIncoming
             localIncoming = !localIncoming
@@ -43,15 +44,18 @@ class ChatViewController: UIViewController {
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         newMessageArea.addSubview(sendButton)
         sendButton.setTitle("Send", for: .normal)
+        sendButton.addTarget(self, action: #selector(pressedButton(button:)), for: .touchUpInside)
         sendButton.setContentHuggingPriority(UILayoutPriority(rawValue: 251), for: .horizontal)
+        sendButton.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
+
+        bottomConstraint = newMessageArea.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        bottomConstraint.isActive = true
 
         let messageAreaConstraints: [NSLayoutConstraint] = [
             newMessageArea.leadingAnchor.constraint(
                 equalTo: view.leadingAnchor),
             newMessageArea.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor),
-            newMessageArea.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor),
 
             newMessageField.leadingAnchor.constraint(
                 equalTo: newMessageArea.leadingAnchor,constant: 10),
@@ -83,10 +87,50 @@ class ChatViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: newMessageArea.topAnchor),
-        ]
+            ]
         NSLayoutConstraint.activate(tableViewConstraints)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name(rawValue: "UIKeyboardWillShowNotification"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name(rawValue: "UIKeyboardWillHideNotification"), object: nil)
+        let tapRecoginzer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(recoginzer:)))
+        tapRecoginzer.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tapRecoginzer)
     }
-  
+
+    @objc func handleSingleTap(recoginzer: UITapGestureRecognizer) {
+        view.endEditing(true)
+    }
+
+    @objc func keyboardWillShow(notification: Notification) {
+        updateBottomConstraint(notification: notification)
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        updateBottomConstraint(notification: notification)
+    }
+
+    func updateBottomConstraint(notification: Notification) {
+        if let userInfo = notification.userInfo,
+            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double {
+            let newFrame = view.convert(frame, from: (UIApplication.shared.delegate as! AppDelegate).window)
+            bottomConstraint.constant = newFrame.origin.y - (view.frame).height
+            UIView.animate(withDuration: animationDuration) {
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+
+    @objc func pressedButton(button: UIButton) {
+        guard let text = newMessageField.text, text.count > 0 else {return}
+        let message = Message()
+        message.text = text
+        message.incoming = false
+        messages.append(message)
+        tableView.reloadData()
+        tableView.scrollToRow(at: IndexPath(row: tableView.numberOfRows(inSection: 0)-1, section: 0), at: .bottom, animated: true)
+    }
+
 }
 
 extension ChatViewController: UITableViewDataSource {
