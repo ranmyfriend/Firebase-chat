@@ -22,8 +22,6 @@ class ChatViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Chats"
-
         do {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
             request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
@@ -78,7 +76,7 @@ class ChatViewController: UIViewController {
         ]
         NSLayoutConstraint.activate(messageAreaConstraints)
         
-        tableView.register(ChatCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(MessageCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -186,7 +184,7 @@ extension ChatViewController: UITableViewDataSource {
         return getMessages(section: section).count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? ChatCell else {fatalError()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MessageCell else {fatalError()}
         let messages = getMessages(section: indexPath.section)
         let message = messages[indexPath.row]
         cell.messageLabel.text = message.text
