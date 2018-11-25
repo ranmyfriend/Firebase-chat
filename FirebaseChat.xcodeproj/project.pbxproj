@@ -180,9 +180,11 @@
 				TargetAttributes = {
 					C6EE644A2175F8620090C1FA = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1010;
 					};
 					C6EE64612175F8760090C1FA = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1010;
 						TestTargetID = C6EE644A2175F8620090C1FA;
 					};
 				};
@@ -405,7 +407,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DrawRect.FirebaseChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -423,7 +425,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DrawRect.FirebaseChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -443,7 +445,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DrawRect.FirebaseChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FirebaseChat.app/FirebaseChat";
 			};
@@ -464,7 +466,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DrawRect.FirebaseChatTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FirebaseChat.app/FirebaseChat";
 			};
