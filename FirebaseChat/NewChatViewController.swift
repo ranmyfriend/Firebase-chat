@@ -1,27 +1,26 @@
 //
-//  AllChatsViewController.swift
+//  NewChatViewController.swift
 //  FirebaseChat
 //
-//  Created by Ranjith Kumar on 10/21/18.
+//  Created by Ranjith Kumar on 11/25/18.
 //  Copyright © 2018 DrawRect. All rights reserved.
 //
 
 import UIKit
 import CoreData
 
-class AllChatsViewController: UIViewController {
+class NewChatViewController: UIViewController {
 
     var context: NSManagedObjectContext?
     private var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>?
     private let tableView = UITableView(frame: .zero, style: .plain)
-    private let cellIdentifier = "MessageCell"
+    private let cellIdentifier = "ContactCell"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Chats"
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "newChat"), style: .plain, target: self, action: #selector(newChat))
+        title = "New Chat"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelTapped))
 
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
@@ -29,67 +28,55 @@ class AllChatsViewController: UIViewController {
             automaticallyAdjustsScrollViewInsets = false
         }
 
-        tableView.register(ChatCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
-
         let tableViewConstraints: [NSLayoutConstraint] = [
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ]
-
         NSLayoutConstraint.activate(tableViewConstraints)
 
         if let context = context {
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Chat")
-            request.sortDescriptors = [NSSortDescriptor(key: "lastMessageTime", ascending: false)]
-            fetchResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Contact")
+            request.sortDescriptors = [
+                NSSortDescriptor(key: "lastName", ascending: true),
+                NSSortDescriptor(key: "firstName", ascending: true)]
+
+            fetchResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: "sortLetter", cacheName: "NewChatViewController")
+
             fetchResultsController?.delegate = self
+
             do {
                 try fetchResultsController?.performFetch()
             }catch {
-                print("There was a problem fetching")
+                print("There was a problem fetching.")
             }
+
         }
+
+    }
+    @objc func cancelTapped() {
+        dismiss(animated: true, completion: nil)
     }
 
-    @objc func newChat() {
-        let newChatViewController = NewChatViewController()
-        newChatViewController.context = context
-        let navigationController = UINavigationController(rootViewController: newChatViewController)
-        present(navigationController, animated: true, completion: nil)
+
+    func configureCell(cell: UITableViewCell, atIndexPath: IndexPath) {
+        guard let contact = fetchResultsController?.object(at: atIndexPath) as? Contact else { return }
+        cell.textLabel?.text = contact.fullName
     }
 
-    func fakeData() {
-        guard let context = context else {return}
-        let chat = NSEntityDescription.insertNewObject(forEntityName: "Chat", into: context) as? Chat
-    }
 
-    func configureCell(cell: UITableViewCell,atIndexPath: IndexPath) {
-        let cell = cell as! ChatCell
-        guard let chat = fetchResultsController?.object(at: atIndexPath) as? Chat else { return }
 
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/YY"
-        cell.nameLabel.text = "Eliot"
-        cell.dateLabel.text = formatter.string(from: Date())
-        cell.messageLabel.text = "Hey"
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
 
 }
 
-extension AllChatsViewController: UITableViewDataSource {
+extension NewChatViewController: UITableViewDataSource {
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return fetchResultsController?.sections?.count ?? 0
     }
@@ -105,44 +92,50 @@ extension AllChatsViewController: UITableViewDataSource {
         configureCell(cell: cell, atIndexPath: indexPath)
         return cell
     }
-}
 
-extension AllChatsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sections = fetchResultsController?.sections else {return nil}
+        let currentSection = sections[section]
+        return currentSection.name
     }
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
+}
+
+extension NewChatViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let chat = fetchResultsController?.object(at: indexPath) as? Chat else {return}
+        guard let contact = fetchResultsController?.object(at: indexPath) as? Contact else {return}
+
+
 
     }
 }
 
-extension AllChatsViewController: NSFetchedResultsControllerDelegate {
+
+extension NewChatViewController: NSFetchedResultsControllerDelegate {
 
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
-            tableView.insertSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
         case .delete:
-            tableView.deleteSections(NSIndexSet(index: sectionIndex) as IndexSet, with: .fade)
-        default:
-            break
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        default: break
         }
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch (type) {
+
+        switch type {
         case .insert:
-            if let indexPath = newIndexPath {
-                tableView.insertRows(at: [indexPath], with: .fade)
-            }
-            break
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
         case .update:
             let cell = tableView.cellForRow(at: indexPath!)
             configureCell(cell: cell!, atIndexPath: indexPath!)
@@ -152,6 +145,8 @@ extension AllChatsViewController: NSFetchedResultsControllerDelegate {
             tableView.insertRows(at: [newIndexPath!], with: .fade)
         case .delete:
             tableView.deleteRows(at: [indexPath!], with: .fade)
+        default:
+            break
         }
     }
 

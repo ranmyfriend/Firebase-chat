@@ -29,6 +29,7 @@ class ChatViewController: UIViewController {
                 for message in result {
                     addMessage(message: message)
                 }
+              dates.sort{($0 as NSDate).earlierDate($1) == $0}
             }
         }catch {
             print("We couldn't fetch!!!")
