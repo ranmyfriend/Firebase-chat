@@ -120,8 +120,8 @@ class ChatViewController: UIViewController {
 
     func updateBottomConstraint(notification: Notification) {
         if let userInfo = notification.userInfo,
-            let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double {
+            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double {
             let newFrame = view.convert(frame, from: (UIApplication.shared.delegate as! AppDelegate).window)
             bottomConstraint.constant = newFrame.origin.y - (view.frame).height
             UIView.animate(withDuration: animationDuration) {

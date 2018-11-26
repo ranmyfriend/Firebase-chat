@@ -2,14 +2,13 @@
 //  Contact+CoreDataProperties.swift
 //  FirebaseChat
 //
-//  Created by Ranjith Kumar on 10/21/18.
+//  Created by Ranjith Kumar on 11/26/18.
 //  Copyright © 2018 DrawRect. All rights reserved.
 //
 //
 
 import Foundation
 import CoreData
-
 
 extension Contact {
 

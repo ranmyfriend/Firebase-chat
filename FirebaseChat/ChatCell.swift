@@ -14,7 +14,7 @@ class ChatCell: UITableViewCell {
     let messageLabel = UILabel()
     let dateLabel = UILabel()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         nameLabel.font = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.bold)

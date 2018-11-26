@@ -2,7 +2,7 @@
 //  Contact+CoreDataClass.swift
 //  FirebaseChat
 //
-//  Created by Ranjith Kumar on 10/21/18.
+//  Created by Ranjith Kumar on 11/26/18.
 //  Copyright © 2018 DrawRect. All rights reserved.
 //
 //
@@ -12,13 +12,13 @@ import CoreData
 
 @objc(Contact)
 public class Contact: NSManagedObject {
-
-    var sortLetter: String {
+    
+   @objc var sortLetter: String {
         let letter = lastName?.first ?? firstName?.first
         let s = String(letter!)
         return s
     }
-
+    
     var fullName: String {
         var fullName = ""
         if let firstName = firstName {

@@ -17,8 +17,9 @@
 		07ACACA8217C2FC600ECF0EA /* Chat+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ACACA6217C2FC600ECF0EA /* Chat+CoreDataProperties.swift */; };
 		07ACACAA217C307900ECF0EA /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ACACA9217C307900ECF0EA /* ChatCell.swift */; };
 		07ACACAC217C331C00ECF0EA /* AllChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07ACACAB217C331C00ECF0EA /* AllChatsViewController.swift */; };
-		07C397EC217C8FBC00384AF6 /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C397EA217C8FBC00384AF6 /* Contact+CoreDataClass.swift */; };
-		07C397ED217C8FBC00384AF6 /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C397EB217C8FBC00384AF6 /* Contact+CoreDataProperties.swift */; };
+		C6C92AE521ABCFB600043BB1 /* Contact+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE321ABCFB600043BB1 /* Contact+CoreDataClass.swift */; };
+		C6C92AE621ABCFB600043BB1 /* Contact+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE421ABCFB600043BB1 /* Contact+CoreDataProperties.swift */; };
+		C6C92AE821ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */; };
 		C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE644E2175F8620090C1FA /* AppDelegate.swift */; };
 		C6EE64512175F8620090C1FA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64502175F8620090C1FA /* ChatViewController.swift */; };
 		C6EE64592175F8760090C1FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EE64582175F8760090C1FA /* Assets.xcassets */; };
@@ -49,8 +50,9 @@
 		07ACACA6217C2FC600ECF0EA /* Chat+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chat+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		07ACACA9217C307900ECF0EA /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
 		07ACACAB217C331C00ECF0EA /* AllChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllChatsViewController.swift; sourceTree = "<group>"; };
-		07C397EA217C8FBC00384AF6 /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
-		07C397EB217C8FBC00384AF6 /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C6C92AE321ABCFB600043BB1 /* Contact+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C6C92AE421ABCFB600043BB1 /* Contact+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewFetchResultsDelegate.swift; sourceTree = "<group>"; };
 		C6EE644B2175F8620090C1FA /* FirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6EE644E2175F8620090C1FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6EE64502175F8620090C1FA /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -102,8 +104,8 @@
 		C6EE644D2175F8620090C1FA /* FirebaseChat */ = {
 			isa = PBXGroup;
 			children = (
-				07C397EA217C8FBC00384AF6 /* Contact+CoreDataClass.swift */,
-				07C397EB217C8FBC00384AF6 /* Contact+CoreDataProperties.swift */,
+				C6C92AE321ABCFB600043BB1 /* Contact+CoreDataClass.swift */,
+				C6C92AE421ABCFB600043BB1 /* Contact+CoreDataProperties.swift */,
 				07ACACA5217C2FC600ECF0EA /* Chat+CoreDataClass.swift */,
 				07ACACA6217C2FC600ECF0EA /* Chat+CoreDataProperties.swift */,
 				07ACAC9D217C2CF200ECF0EA /* Message+CoreDataClass.swift */,
@@ -115,6 +117,7 @@
 				07ACAC8A217BA4C800ECF0EA /* Model.xcdatamodeld */,
 				07ACAC88217BA29E00ECF0EA /* CDHelper.swift */,
 				07ACAC86217B67B200ECF0EA /* UITableView+Scroll.swift */,
+				C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */,
 				C6EE64742176038D0090C1FA /* MessageCell.swift */,
 				07ACACA9217C307900ECF0EA /* ChatCell.swift */,
 				C6EE64582175F8760090C1FA /* Assets.xcassets */,
@@ -237,16 +240,17 @@
 			files = (
 				07ACACA7217C2FC600ECF0EA /* Chat+CoreDataClass.swift in Sources */,
 				C6EE64512175F8620090C1FA /* ChatViewController.swift in Sources */,
-				07C397ED217C8FBC00384AF6 /* Contact+CoreDataProperties.swift in Sources */,
 				07ACACAA217C307900ECF0EA /* ChatCell.swift in Sources */,
+				C6C92AE621ABCFB600043BB1 /* Contact+CoreDataProperties.swift in Sources */,
 				072E2A0221AB0D5500DA782A /* NewChatViewController.swift in Sources */,
 				C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */,
 				07ACAC8C217BA4C800ECF0EA /* Model.xcdatamodeld in Sources */,
 				C6EE64752176038D0090C1FA /* MessageCell.swift in Sources */,
+				C6C92AE821ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift in Sources */,
 				07ACACAC217C331C00ECF0EA /* AllChatsViewController.swift in Sources */,
+				C6C92AE521ABCFB600043BB1 /* Contact+CoreDataClass.swift in Sources */,
 				07ACAC87217B67B200ECF0EA /* UITableView+Scroll.swift in Sources */,
 				07ACAC89217BA29E00ECF0EA /* CDHelper.swift in Sources */,
-				07C397EC217C8FBC00384AF6 /* Contact+CoreDataClass.swift in Sources */,
 				07ACACA8217C2FC600ECF0EA /* Chat+CoreDataProperties.swift in Sources */,
 				07ACACA2217C2CF200ECF0EA /* Message+CoreDataProperties.swift in Sources */,
 				07ACACA1217C2CF200ECF0EA /* Message+CoreDataClass.swift in Sources */,
@@ -412,7 +416,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DrawRect.FirebaseChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -431,7 +435,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.DrawRect.FirebaseChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

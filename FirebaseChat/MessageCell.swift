@@ -16,7 +16,7 @@ class MessageCell: UITableViewCell {
     private var outgoingConstraints: [NSLayoutConstraint]!
     private var incomingConstraints: [NSLayoutConstraint]!
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +74,7 @@ func makeBubble() -> (incoming: UIImage, outgoing: UIImage) {
     
     let outgoing = coloredImage(image: image, red: 0/255, green: 122/255, blue: 255/255, alpha: 1).resizableImage(withCapInsets: insetsOutgoing)
     
-    let flippedImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: UIImage.Orientation.upMirrored)
+    let flippedImage = UIImage(cgImage: image.cgImage!, scale: image.scale, orientation: UIImageOrientation.upMirrored)
     
     let incoming = coloredImage(image: flippedImage, red: 229/255, green: 229/255, blue: 229/255, alpha: 1).resizableImage(withCapInsets: insetsIncoming)
 

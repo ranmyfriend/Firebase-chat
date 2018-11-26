@@ -7,6 +7,7 @@
     <entity name="Contact" representedClassName="Contact" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortLetter" transient="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
         <attribute name="incoming" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -16,7 +17,7 @@
     </entity>
     <elements>
         <element name="Chat" positionX="-848" positionY="-63" width="128" height="73"/>
+        <element name="Contact" positionX="-765" positionY="0" width="128" height="90"/>
         <element name="Message" positionX="-677" positionY="-15" width="128" height="105"/>
-        <element name="Contact" positionX="-765" positionY="0" width="128" height="75"/>
     </elements>
 </model>
