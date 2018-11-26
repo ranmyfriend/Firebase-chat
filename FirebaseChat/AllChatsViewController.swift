@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer {
+class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer,ChatCreationDelegate {
 
     var context: NSManagedObjectContext?
     private var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>?
@@ -33,19 +33,9 @@ class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer 
 
         tableView.register(ChatCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.tableFooterView = UIView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        view.addSubview(tableView)
-
-        let tableViewConstraints: [NSLayoutConstraint] = [
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ]
-
-        NSLayoutConstraint.activate(tableViewConstraints)
+        fillViewWith(subView: tableView)
 
         if let context = context {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Chat")
@@ -64,6 +54,7 @@ class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer 
     @objc func newChat() {
         let newChatViewController = NewChatViewController()
         newChatViewController.context = context
+        newChatViewController.chatCreationDelegate = self
         let navigationController = UINavigationController(rootViewController: newChatViewController)
         present(navigationController, animated: true, completion: nil)
     }
@@ -89,6 +80,12 @@ class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer 
         // Dispose of any resources that can be recreated.
     }
     
+    func created(chat: Chat, inContext context: NSManagedObjectContext) {
+        let vc = ChatViewController()
+        vc.context = context
+        vc.chat = chat
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
 }
 
@@ -122,3 +119,4 @@ extension AllChatsViewController: UITableViewDelegate {
 
     }
 }
+

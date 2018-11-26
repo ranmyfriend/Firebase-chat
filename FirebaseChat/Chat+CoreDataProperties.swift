@@ -2,7 +2,7 @@
 //  Chat+CoreDataProperties.swift
 //  FirebaseChat
 //
-//  Created by Ranjith Kumar on 10/21/18.
+//  Created by Ranjith Kumar on 11/26/18.
 //  Copyright © 2018 DrawRect. All rights reserved.
 //
 //
@@ -19,6 +19,7 @@ extension Chat {
 
     @NSManaged public var lastMessageTime: NSDate?
     @NSManaged public var messages: NSSet?
+    @NSManaged public var participants: NSSet?
 
 }
 
@@ -36,5 +37,22 @@ extension Chat {
 
     @objc(removeMessages:)
     @NSManaged public func removeFromMessages(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for participants
+extension Chat {
+
+    @objc(addParticipantsObject:)
+    @NSManaged public func addToParticipants(_ value: Contact)
+
+    @objc(removeParticipantsObject:)
+    @NSManaged public func removeFromParticipants(_ value: Contact)
+
+    @objc(addParticipants:)
+    @NSManaged public func addToParticipants(_ values: NSSet)
+
+    @objc(removeParticipants:)
+    @NSManaged public func removeFromParticipants(_ values: NSSet)
 
 }

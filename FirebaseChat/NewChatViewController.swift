@@ -16,6 +16,7 @@ class NewChatViewController: UIViewController,TableViewFetchedResultsDisplayer {
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let cellIdentifier = "ContactCell"
     private var fetchResultsDelegate: NSFetchedResultsControllerDelegate?
+    var chatCreationDelegate: ChatCreationDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,17 +31,9 @@ class NewChatViewController: UIViewController,TableViewFetchedResultsDisplayer {
         }
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        view.addSubview(tableView)
-        let tableViewConstraints: [NSLayoutConstraint] = [
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ]
-        NSLayoutConstraint.activate(tableViewConstraints)
+        fillViewWith(subView: tableView)
         
         if let context = context {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Contact")
@@ -108,9 +101,11 @@ extension NewChatViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let contact = fetchResultsController?.object(at: indexPath) as? Contact else {return}
-        
-        
-        
+        guard let context = context else {return}
+        guard let chat = NSEntityDescription.insertNewObject(forEntityName: "Chat", into: context) as? Chat else {return}
+        chat.add(participant: contact)
+        chatCreationDelegate?.created(chat: chat, inContext: context)
+        dismiss(animated: true, completion: nil)
     }
 }
 
