@@ -22,6 +22,8 @@
 		C6C92AE821ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */; };
 		C6C92AEA21ABEA3F00043BB1 /* UIViewController+FillWithView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE921ABEA3F00043BB1 /* UIViewController+FillWithView.swift */; };
 		C6C92AEC21ABF4AD00043BB1 /* ChatCreationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AEB21ABF4AD00043BB1 /* ChatCreationDelegate.swift */; };
+		C6C92AF721AD51C500043BB1 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AF621AD51C500043BB1 /* NewGroupViewController.swift */; };
+		C6C92AF921AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AF821AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift */; };
 		C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE644E2175F8620090C1FA /* AppDelegate.swift */; };
 		C6EE64512175F8620090C1FA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64502175F8620090C1FA /* ChatViewController.swift */; };
 		C6EE64592175F8760090C1FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EE64582175F8760090C1FA /* Assets.xcassets */; };
@@ -56,6 +58,8 @@
 		C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewFetchResultsDelegate.swift; sourceTree = "<group>"; };
 		C6C92AE921ABEA3F00043BB1 /* UIViewController+FillWithView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+FillWithView.swift"; sourceTree = "<group>"; };
 		C6C92AEB21ABF4AD00043BB1 /* ChatCreationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreationDelegate.swift; sourceTree = "<group>"; };
+		C6C92AF621AD51C500043BB1 /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
+		C6C92AF821AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupParticipantsViewController.swift; sourceTree = "<group>"; };
 		C6EE644B2175F8620090C1FA /* FirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6EE644E2175F8620090C1FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6EE64502175F8620090C1FA /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -152,7 +156,6 @@
 				07ACAC8A217BA4C800ECF0EA /* Model.xcdatamodeld */,
 				C6EE64582175F8760090C1FA /* Assets.xcassets */,
 				C6EE645A2175F8760090C1FA /* LaunchScreen.storyboard */,
-				C6EE645D2175F8760090C1FA /* Info.plist */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -185,6 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				C6EE644E2175F8620090C1FA /* AppDelegate.swift */,
+				C6C92AF621AD51C500043BB1 /* NewGroupViewController.swift */,
+				C6C92AF821AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift */,
 				C6C92AF021AD479D00043BB1 /* NewChatVC */,
 				C6C92AEF21AD478200043BB1 /* AllChatsVC */,
 				C6C92AEE21AD477A00043BB1 /* ContactsVC */,
@@ -192,6 +197,7 @@
 				C6C92AF321AD47B900043BB1 /* Helpers */,
 				C6C92AF221AD47B000043BB1 /* ChatVC */,
 				C6C92AF121AD47AB00043BB1 /* Protocols */,
+				C6EE645D2175F8760090C1FA /* Info.plist */,
 			);
 			path = FirebaseChat;
 			sourceTree = "<group>";
@@ -314,12 +320,14 @@
 				072E2A0221AB0D5500DA782A /* NewChatViewController.swift in Sources */,
 				C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */,
 				07ACAC8C217BA4C800ECF0EA /* Model.xcdatamodeld in Sources */,
+				C6C92AF921AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift in Sources */,
 				C6EE64752176038D0090C1FA /* MessageCell.swift in Sources */,
 				C6C92AE821ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift in Sources */,
 				C6C92AEA21ABEA3F00043BB1 /* UIViewController+FillWithView.swift in Sources */,
 				07ACACAC217C331C00ECF0EA /* AllChatsViewController.swift in Sources */,
 				C6C92AE521ABCFB600043BB1 /* Contact+CoreDataClass.swift in Sources */,
 				07ACAC87217B67B200ECF0EA /* UITableView+Scroll.swift in Sources */,
+				C6C92AF721AD51C500043BB1 /* NewGroupViewController.swift in Sources */,
 				07ACAC89217BA29E00ECF0EA /* CDHelper.swift in Sources */,
 				07ACACA8217C2FC600ECF0EA /* Chat+CoreDataProperties.swift in Sources */,
 				07ACACA2217C2CF200ECF0EA /* Message+CoreDataProperties.swift in Sources */,
