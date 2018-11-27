@@ -8,18 +8,19 @@
     <entity name="Contact" representedClassName="Contact" syncable="YES">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="sortLetter" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sortLetter" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="chats" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Chat" inverseName="participants" inverseEntity="Chat" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Message" inverseName="sender" inverseEntity="Message" syncable="YES"/>
     </entity>
     <entity name="Message" representedClassName="Message" syncable="YES">
-        <attribute name="incoming" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="chat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Chat" inverseName="messages" inverseEntity="Chat" syncable="YES"/>
+        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contact" inverseName="messages" inverseEntity="Contact" syncable="YES"/>
     </entity>
     <elements>
         <element name="Chat" positionX="-848" positionY="-63" width="128" height="90"/>
-        <element name="Contact" positionX="-765" positionY="0" width="128" height="105"/>
+        <element name="Contact" positionX="-765" positionY="0" width="128" height="120"/>
         <element name="Message" positionX="-677" positionY="-15" width="128" height="105"/>
     </elements>
 </model>

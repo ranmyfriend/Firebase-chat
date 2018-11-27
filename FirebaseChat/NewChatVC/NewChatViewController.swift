@@ -51,7 +51,6 @@ class NewChatViewController: UIViewController,TableViewFetchedResultsDisplayer {
             }catch {
                 print("There was a problem fetching.")
             }
-            
         }
         
     }

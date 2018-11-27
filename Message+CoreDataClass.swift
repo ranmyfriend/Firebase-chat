@@ -14,13 +14,7 @@ import CoreData
 public class Message: NSManagedObject {
 
     var isIncoming: Bool {
-        get{
-            //            guard let incoming = incoming else { return false }
-            return incoming
-        }
-        set(incoming){
-            self.incoming = incoming
-        }
+        return sender != nil
     }
 
 

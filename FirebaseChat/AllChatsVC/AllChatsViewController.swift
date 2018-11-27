@@ -67,12 +67,16 @@ class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer,
     func configureCell(cell: UITableViewCell,atIndexPath: IndexPath) {
         let cell = cell as! ChatCell
         guard let chat = fetchResultsController?.object(at: atIndexPath) as? Chat else { return }
+        guard let contact = chat.participants?.anyObject() as? Contact else {return}
+        guard let lastMessage = chat.lastMessage,
+              let timestamp = lastMessage.timestamp,
+              let txt = lastMessage.text else {return}
 
         let formatter = DateFormatter()
         formatter.dateFormat = "MM/dd/YY"
-        cell.nameLabel.text = "Eliot"
-        cell.dateLabel.text = formatter.string(from: Date())
-        cell.messageLabel.text = "Hey"
+        cell.nameLabel.text = contact.fullName
+        cell.dateLabel.text = formatter.string(from: timestamp as Date)
+        cell.messageLabel.text = txt
     }
 
     override func didReceiveMemoryWarning() {
@@ -116,7 +120,11 @@ extension AllChatsViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let chat = fetchResultsController?.object(at: indexPath) as? Chat else {return}
-
+        let chatVC = ChatViewController()
+        chatVC.context = context
+        chatVC.chat = chat
+        navigationController?.pushViewController(chatVC, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 

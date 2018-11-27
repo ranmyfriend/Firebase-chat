@@ -32,6 +32,7 @@ class ChatViewController: UIViewController {
             guard let chat = chat else {throw error.NoChat}
             guard let context = context else {throw error.NoContext}
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
+            request.predicate = NSPredicate(format: "chat=%@", chat)
             request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
             if let result = try context.fetch(request) as? [Message] {
                 for message in result {
@@ -105,7 +106,7 @@ class ChatViewController: UIViewController {
         view.addSubview(tableView)
         
         let tableViewConstraints: [NSLayoutConstraint] = [
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: newMessageArea.topAnchor),
@@ -154,13 +155,13 @@ class ChatViewController: UIViewController {
         guard let context = context else { return }
         guard let message = NSEntityDescription.insertNewObject(forEntityName: "Message",into:context) as? Message else {return}
         message.text = text
-        message.isIncoming = false
         message.timestamp = Date() as NSDate
-        addMessage(message: message)
+        message.chat = chat
+        chat?.lastMessageTime = message.timestamp
         do {
             try context.save()
         }catch {
-            print("There was a problem saving")
+            print("There was a problem saving:\(error)")
             return
         }
         newMessageField.text = ""
@@ -184,7 +185,10 @@ class ChatViewController: UIViewController {
         messages!.sort{($0.timestamp!.earlierDate($1.timestamp! as Date)) == $0.timestamp! as Date}
         sections[startDay] = messages
     }
-
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
 }
 
