@@ -22,13 +22,14 @@
 		C6C92AE821ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */; };
 		C6C92AEA21ABEA3F00043BB1 /* UIViewController+FillWithView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AE921ABEA3F00043BB1 /* UIViewController+FillWithView.swift */; };
 		C6C92AEC21ABF4AD00043BB1 /* ChatCreationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AEB21ABF4AD00043BB1 /* ChatCreationDelegate.swift */; };
+		C6C92AF721AD51C500043BB1 /* NewGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AF621AD51C500043BB1 /* NewGroupViewController.swift */; };
+		C6C92AF921AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C92AF821AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift */; };
 		C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE644E2175F8620090C1FA /* AppDelegate.swift */; };
 		C6EE64512175F8620090C1FA /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64502175F8620090C1FA /* ChatViewController.swift */; };
 		C6EE64592175F8760090C1FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6EE64582175F8760090C1FA /* Assets.xcassets */; };
 		C6EE645C2175F8760090C1FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6EE645A2175F8760090C1FA /* LaunchScreen.storyboard */; };
 		C6EE64672175F8760090C1FA /* FirebaseChatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64662175F8760090C1FA /* FirebaseChatTests.swift */; };
 		C6EE64752176038D0090C1FA /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64742176038D0090C1FA /* MessageCell.swift */; };
-		C6EE64762176038D0090C1FA /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6EE64742176038D0090C1FA /* MessageCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewFetchResultsDelegate.swift; sourceTree = "<group>"; };
 		C6C92AE921ABEA3F00043BB1 /* UIViewController+FillWithView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+FillWithView.swift"; sourceTree = "<group>"; };
 		C6C92AEB21ABF4AD00043BB1 /* ChatCreationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCreationDelegate.swift; sourceTree = "<group>"; };
+		C6C92AF621AD51C500043BB1 /* NewGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupViewController.swift; sourceTree = "<group>"; };
+		C6C92AF821AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupParticipantsViewController.swift; sourceTree = "<group>"; };
 		C6EE644B2175F8620090C1FA /* FirebaseChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirebaseChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6EE644E2175F8620090C1FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C6EE64502175F8620090C1FA /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
@@ -87,52 +90,85 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		072E2A0321AC3B1000DA782A /* CoreData */ = {
+		C6C92AEE21AD477A00043BB1 /* ContactsVC */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ContactsVC;
+			sourceTree = "<group>";
+		};
+		C6C92AEF21AD478200043BB1 /* AllChatsVC */ = {
+			isa = PBXGroup;
+			children = (
+				07ACACAB217C331C00ECF0EA /* AllChatsViewController.swift */,
+				07ACACA9217C307900ECF0EA /* ChatCell.swift */,
+			);
+			path = AllChatsVC;
+			sourceTree = "<group>";
+		};
+		C6C92AF021AD479D00043BB1 /* NewChatVC */ = {
+			isa = PBXGroup;
+			children = (
+				072E2A0121AB0D5500DA782A /* NewChatViewController.swift */,
+			);
+			path = NewChatVC;
+			sourceTree = "<group>";
+		};
+		C6C92AF121AD47AB00043BB1 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				C6C92AEB21ABF4AD00043BB1 /* ChatCreationDelegate.swift */,
+				C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		C6C92AF221AD47B000043BB1 /* ChatVC */ = {
+			isa = PBXGroup;
+			children = (
+				C6EE64502175F8620090C1FA /* ChatViewController.swift */,
+				C6EE64742176038D0090C1FA /* MessageCell.swift */,
+			);
+			path = ChatVC;
+			sourceTree = "<group>";
+		};
+		C6C92AF321AD47B900043BB1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				07ACAC86217B67B200ECF0EA /* UITableView+Scroll.swift */,
+				C6C92AE921ABEA3F00043BB1 /* UIViewController+FillWithView.swift */,
+				07ACAC88217BA29E00ECF0EA /* CDHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C6C92AF421AD47C000043BB1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C6C92AF521AD487100043BB1 /* Supporting Files */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		C6C92AF521AD487100043BB1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				07ACAC8A217BA4C800ECF0EA /* Model.xcdatamodeld */,
-				07ACAC88217BA29E00ECF0EA /* CDHelper.swift */,
+				C6EE64582175F8760090C1FA /* Assets.xcassets */,
+				C6EE645A2175F8760090C1FA /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C6EE64422175F8620090C1FA = {
+			isa = PBXGroup;
+			children = (
 				C6C92AE321ABCFB600043BB1 /* Contact+CoreDataClass.swift */,
 				C6C92AE421ABCFB600043BB1 /* Contact+CoreDataProperties.swift */,
 				07ACACA5217C2FC600ECF0EA /* Chat+CoreDataClass.swift */,
 				07ACACA6217C2FC600ECF0EA /* Chat+CoreDataProperties.swift */,
 				07ACAC9D217C2CF200ECF0EA /* Message+CoreDataClass.swift */,
 				07ACAC9E217C2CF200ECF0EA /* Message+CoreDataProperties.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		072E2A0421AC3B5300DA782A /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				C6EE64502175F8620090C1FA /* ChatViewController.swift */,
-				072E2A0121AB0D5500DA782A /* NewChatViewController.swift */,
-				07ACACAB217C331C00ECF0EA /* AllChatsViewController.swift */,
-			);
-			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		072E2A0521AC3B6100DA782A /* CustomCells */ = {
-			isa = PBXGroup;
-			children = (
-				C6EE64742176038D0090C1FA /* MessageCell.swift */,
-				07ACACA9217C307900ECF0EA /* ChatCell.swift */,
-			);
-			path = CustomCells;
-			sourceTree = "<group>";
-		};
-		072E2A0621AC3B7B00DA782A /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				C6C92AE921ABEA3F00043BB1 /* UIViewController+FillWithView.swift */,
-				07ACAC86217B67B200ECF0EA /* UITableView+Scroll.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		C6EE64422175F8620090C1FA = {
-			isa = PBXGroup;
-			children = (
 				C6EE644D2175F8620090C1FA /* FirebaseChat */,
 				C6EE64652175F8760090C1FA /* FirebaseChatTests */,
 				C6EE644C2175F8620090C1FA /* Products */,
@@ -152,14 +188,15 @@
 			isa = PBXGroup;
 			children = (
 				C6EE644E2175F8620090C1FA /* AppDelegate.swift */,
-				072E2A0621AC3B7B00DA782A /* Extensions */,
-				072E2A0521AC3B6100DA782A /* CustomCells */,
-				072E2A0421AC3B5300DA782A /* ViewControllers */,
-				072E2A0321AC3B1000DA782A /* CoreData */,
-				C6C92AEB21ABF4AD00043BB1 /* ChatCreationDelegate.swift */,
-				C6C92AE721ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift */,
-				C6EE64582175F8760090C1FA /* Assets.xcassets */,
-				C6EE645A2175F8760090C1FA /* LaunchScreen.storyboard */,
+				C6C92AF621AD51C500043BB1 /* NewGroupViewController.swift */,
+				C6C92AF821AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift */,
+				C6C92AF021AD479D00043BB1 /* NewChatVC */,
+				C6C92AEF21AD478200043BB1 /* AllChatsVC */,
+				C6C92AEE21AD477A00043BB1 /* ContactsVC */,
+				C6C92AF421AD47C000043BB1 /* Frameworks */,
+				C6C92AF321AD47B900043BB1 /* Helpers */,
+				C6C92AF221AD47B000043BB1 /* ChatVC */,
+				C6C92AF121AD47AB00043BB1 /* Protocols */,
 				C6EE645D2175F8760090C1FA /* Info.plist */,
 			);
 			path = FirebaseChat;
@@ -283,12 +320,14 @@
 				072E2A0221AB0D5500DA782A /* NewChatViewController.swift in Sources */,
 				C6EE644F2175F8620090C1FA /* AppDelegate.swift in Sources */,
 				07ACAC8C217BA4C800ECF0EA /* Model.xcdatamodeld in Sources */,
+				C6C92AF921AD5B7E00043BB1 /* NewGroupParticipantsViewController.swift in Sources */,
 				C6EE64752176038D0090C1FA /* MessageCell.swift in Sources */,
 				C6C92AE821ABD92B00043BB1 /* TableViewFetchResultsDelegate.swift in Sources */,
 				C6C92AEA21ABEA3F00043BB1 /* UIViewController+FillWithView.swift in Sources */,
 				07ACACAC217C331C00ECF0EA /* AllChatsViewController.swift in Sources */,
 				C6C92AE521ABCFB600043BB1 /* Contact+CoreDataClass.swift in Sources */,
 				07ACAC87217B67B200ECF0EA /* UITableView+Scroll.swift in Sources */,
+				C6C92AF721AD51C500043BB1 /* NewGroupViewController.swift in Sources */,
 				07ACAC89217BA29E00ECF0EA /* CDHelper.swift in Sources */,
 				07ACACA8217C2FC600ECF0EA /* Chat+CoreDataProperties.swift in Sources */,
 				07ACACA2217C2CF200ECF0EA /* Message+CoreDataProperties.swift in Sources */,
@@ -302,7 +341,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6EE64672175F8760090C1FA /* FirebaseChatTests.swift in Sources */,
-				C6EE64762176038D0090C1FA /* MessageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

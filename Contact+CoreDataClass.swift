@@ -26,7 +26,7 @@ public class Contact: NSManagedObject {
         }
         if let lastName = lastName {
             if fullName.count > 0 {
-                fullName += ""
+                fullName += " "
             }
             fullName += lastName
         }

@@ -2,7 +2,7 @@
 //  Chat+CoreDataProperties.swift
 //  FirebaseChat
 //
-//  Created by Ranjith Kumar on 11/26/18.
+//  Created by Ranjith Kumar on 11/27/18.
 //  Copyright © 2018 DrawRect. All rights reserved.
 //
 //
@@ -18,6 +18,7 @@ extension Chat {
     }
 
     @NSManaged public var lastMessageTime: NSDate?
+    @NSManaged public var name: String?
     @NSManaged public var messages: NSSet?
     @NSManaged public var participants: NSSet?
 

@@ -45,6 +45,7 @@ class MessageCell: UITableViewCell {
         
         messageLabel.textAlignment = .center
         messageLabel.numberOfLines = 0
+        backgroundColor = .clear
     }
     
     required init?(coder aDecoder: NSCoder) {
