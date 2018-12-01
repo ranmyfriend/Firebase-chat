@@ -117,6 +117,10 @@ class ChatViewController: UIViewController {
         let tapRecoginzer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(recoginzer:)))
         tapRecoginzer.numberOfTapsRequired = 1
         view.addGestureRecognizer(tapRecoginzer)
+
+        if let mainContext = context?.parent ?? context {
+            NotificationCenter.default.addObserver(self, selector: #selector(didChangeContent), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: mainContext)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -151,12 +155,12 @@ class ChatViewController: UIViewController {
 
     @objc func pressedButton(button: UIButton) {
         guard let text = newMessageField.text, text.count > 0 else {return}
+        checkTemporaryContext()
         guard let context = context else { return }
         guard let message = NSEntityDescription.insertNewObject(forEntityName: "Message",into:context) as? Message else {return}
         message.text = text
         message.isIncoming = false
         message.timestamp = Date() as NSDate
-        addMessage(message: message)
         do {
             try context.save()
         }catch {
@@ -185,6 +189,31 @@ class ChatViewController: UIViewController {
         sections[startDay] = messages
     }
 
+    @objc func didChangeContent(notification: Notification) {
+        guard let set = (notification.userInfo![NSInsertedObjectsKey] as? NSSet) else {return}
+        let objects = set.allObjects
+        for obj in objects {
+            guard let message = obj as? Message else { continue}
+            if message.chat?.objectID == chat?.objectID {
+                addMessage(message: message)
+            }
+        }
+        tableView.reloadData()
+        tableView.scrollToBottom()
+    }
+
+    func checkTemporaryContext() {
+        if let mainContext = context?.parent, let chat = chat{
+            let tempContext = context
+            context = mainContext
+            do{
+                try tempContext?.save()
+            }catch {
+                print("Error saving tempContext")
+            }
+            self.chat = mainContext.object(with: chat.objectID) as? Chat
+        }
+    }
 
 }
 

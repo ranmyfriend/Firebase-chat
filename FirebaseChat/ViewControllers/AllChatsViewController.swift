@@ -49,11 +49,14 @@ class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer,
                 print("There was a problem fetching")
             }
         }
+        fakeData()
     }
 
     @objc func newChat() {
         let newChatViewController = NewChatViewController()
-        newChatViewController.context = context
+        let chatContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+        chatContext.parent = context
+        newChatViewController.context = chatContext
         newChatViewController.chatCreationDelegate = self
         let navigationController = UINavigationController(rootViewController: newChatViewController)
         present(navigationController, animated: true, completion: nil)
@@ -62,6 +65,11 @@ class AllChatsViewController: UIViewController,TableViewFetchedResultsDisplayer,
     func fakeData() {
         guard let context = context else {return}
         let chat = NSEntityDescription.insertNewObject(forEntityName: "Chat", into: context) as? Chat
+        do {
+            try context.save()
+        }catch {
+            print("Error Saving")
+        }
     }
 
     func configureCell(cell: UITableViewCell,atIndexPath: IndexPath) {
