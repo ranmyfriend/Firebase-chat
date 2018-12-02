@@ -18,6 +18,11 @@ class NewGroupParticipantsViewController: UIViewController {
     private var searchField: UITextField!
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let cellIdentifier = "ContactCell"
+    private var displayedContacts = [Contact]()
+
+    private var allContacts = [Contact]()
+    private var selectedContacts = [Contact]()
+    private var isSearching:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,16 +39,29 @@ class NewGroupParticipantsViewController: UIViewController {
         }
 
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.tableFooterView = UIView(frame: .zero)
 
         searchField = createSearchField()
+        searchField.delegate = self
         tableView.tableHeaderView = searchField
 
         fillViewWith(subView: tableView)
-    }
 
-    @objc private func createChat() {
-
+        if let context = context {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Contact")
+            request.sortDescriptors = [
+                NSSortDescriptor(key: "lastName", ascending: true),
+                NSSortDescriptor(key: "firstName", ascending: true)]
+            do {
+                if let results = try context.fetch(request) as? [Contact] {
+                    allContacts = results
+                }
+            }catch {
+                print("There was a problem fetching.")
+            }
+        }
     }
 
     private func createSearchField() -> UITextField {
@@ -83,9 +101,74 @@ class NewGroupParticipantsViewController: UIViewController {
         }
     }
 
+    private func endSearch() {
+        displayedContacts = selectedContacts
+        tableView.reloadData()
+    }
+
+   @objc func createChat() {
+        guard let chat = chat, let context = context else{
+            return
+        }
+        chat.participants = NSSet(array: selectedContacts)
+        chatCreationDelegate?.created(chat: chat, inContext: context)
+        dismiss(animated: false, completion: nil)
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
+}
+
+extension NewGroupParticipantsViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return displayedContacts.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let contact = displayedContacts[indexPath.row]
+        cell.textLabel?.text = contact.fullName
+        cell.selectionStyle = .none
+        return cell
+    }
+}
+
+extension NewGroupParticipantsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let contact = displayedContacts[indexPath.row]
+        guard !selectedContacts.contains(contact)else{return}
+        selectedContacts.append(contact)
+        allContacts.remove(at: allContacts.index(where: {$0 === contact})!)
+        searchField.text = ""
+        endSearch()
+        showCreateButton(show: true)
+    }
+}
+
+extension NewGroupParticipantsViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        isSearching = true
+        guard let currentText = textField.text else {
+            endSearch()
+            return true
+        }
+        let text = NSString(string: currentText).replacingCharacters(in: range, with: string)
+        if text.isEmpty == true {
+            endSearch()
+            return true
+        }
+        displayedContacts = allContacts.filter({ (contact) -> Bool in
+            let match = contact.fullName.range(of: text) != nil
+            return match
+        })
+        tableView.reloadData()
+        return true
+    }
 }

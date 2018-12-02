@@ -54,6 +54,7 @@ class NewChatViewController: UIViewController,TableViewFetchedResultsDisplayer {
         }
         
     }
+
     @objc func cancelTapped() {
         dismiss(animated: true, completion: nil)
     }
