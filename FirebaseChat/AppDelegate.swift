@@ -14,18 +14,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         let chatViewController = AllChatsViewController()
-        window?.rootViewController = UINavigationController(
-            rootViewController: chatViewController)
         let context = NSManagedObjectContext(
             concurrencyType: .mainQueueConcurrencyType)
         context.persistentStoreCoordinator = CDHelper.sharedInstance.coordinator
         chatViewController.context = context
         window?.makeKeyAndVisible()
         fakeDate(context: context)
+         debugPrint("Documents Directory: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!)")
+        window?.rootViewController = UINavigationController(
+            rootViewController: chatViewController)
         return true
     }
 
@@ -93,7 +93,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try context.save()
         }catch {
-            print("Error Saving")
+            print("Error Saving: \(error)")
         }
 
         UserDefaults.standard.setValue(true, forKey: "dataSeeded")

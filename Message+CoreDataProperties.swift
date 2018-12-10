@@ -2,7 +2,7 @@
 //  Message+CoreDataProperties.swift
 //  FirebaseChat
 //
-//  Created by Ranjith Kumar on 10/21/18.
+//  Created by Ranjith Kumar on 11/27/18.
 //  Copyright © 2018 DrawRect. All rights reserved.
 //
 //
@@ -18,8 +18,8 @@ extension Message {
     }
 
     @NSManaged public var text: String?
-    @NSManaged public var incoming: Bool
     @NSManaged public var timestamp: NSDate?
     @NSManaged public var chat: Chat?
+    @NSManaged public var sender: Contact?
 
 }

@@ -19,13 +19,22 @@ class ChatViewController: UIViewController {
     private var bottomConstraint: NSLayoutConstraint!
 
     var context: NSManagedObjectContext?
+    var chat: Chat?
+    
+    private enum error: Error {
+        case NoChat
+        case NoContext
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
+            guard let chat = chat else {throw error.NoChat}
+            guard let context = context else {throw error.NoContext}
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Message")
+            request.predicate = NSPredicate(format: "chat=%@", chat)
             request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
-            if let result = try context?.fetch(request) as? [Message] {
+            if let result = try context.fetch(request) as? [Message] {
                 for message in result {
                     addMessage(message: message)
                 }
@@ -33,6 +42,12 @@ class ChatViewController: UIViewController {
             }
         }catch {
             print("We couldn't fetch!!!")
+        }
+        
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            automaticallyAdjustsScrollViewInsets = false
         }
 
         let newMessageArea = UIView()
@@ -82,12 +97,16 @@ class ChatViewController: UIViewController {
         tableView.delegate = self
         
         tableView.estimatedRowHeight = 44
+        tableView.backgroundView = UIImageView(image: #imageLiteral(resourceName: "MessageBubble"))
+        tableView.separatorColor = UIColor.clear
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 25
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
         let tableViewConstraints: [NSLayoutConstraint] = [
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: newMessageArea.topAnchor),
@@ -99,6 +118,10 @@ class ChatViewController: UIViewController {
         let tapRecoginzer = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(recoginzer:)))
         tapRecoginzer.numberOfTapsRequired = 1
         view.addGestureRecognizer(tapRecoginzer)
+
+        if let mainContext = context?.parent ?? context {
+            NotificationCenter.default.addObserver(self, selector: #selector(didChangeContent), name: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: mainContext)
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -120,8 +143,8 @@ class ChatViewController: UIViewController {
 
     func updateBottomConstraint(notification: Notification) {
         if let userInfo = notification.userInfo,
-            let frame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-            let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double {
+            let frame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+            let animationDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double {
             let newFrame = view.convert(frame, from: (UIApplication.shared.delegate as! AppDelegate).window)
             bottomConstraint.constant = newFrame.origin.y - (view.frame).height
             UIView.animate(withDuration: animationDuration) {
@@ -133,16 +156,17 @@ class ChatViewController: UIViewController {
 
     @objc func pressedButton(button: UIButton) {
         guard let text = newMessageField.text, text.count > 0 else {return}
+        checkTemporaryContext()
         guard let context = context else { return }
         guard let message = NSEntityDescription.insertNewObject(forEntityName: "Message",into:context) as? Message else {return}
         message.text = text
-        message.isIncoming = false
         message.timestamp = Date() as NSDate
-        addMessage(message: message)
+        message.chat = chat
+        chat?.lastMessageTime = message.timestamp
         do {
             try context.save()
         }catch {
-            print("There was a problem saving")
+            print("There was a problem saving:\(error)")
             return
         }
         newMessageField.text = ""
@@ -167,6 +191,35 @@ class ChatViewController: UIViewController {
         sections[startDay] = messages
     }
 
+    @objc func didChangeContent(notification: Notification) {
+        guard let set = (notification.userInfo![NSInsertedObjectsKey] as? NSSet) else {return}
+        let objects = set.allObjects
+        for obj in objects {
+            guard let message = obj as? Message else { continue}
+            if message.chat?.objectID == chat?.objectID {
+                addMessage(message: message)
+            }
+        }
+        tableView.reloadData()
+        tableView.scrollToBottom()
+    }
+
+    func checkTemporaryContext() {
+        if let mainContext = context?.parent, let chat = chat{
+            let tempContext = context
+            context = mainContext
+            do{
+                try tempContext?.save()
+            }catch {
+                print("Error saving tempContext")
+            }
+            self.chat = mainContext.object(with: chat.objectID) as? Chat
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 
 }
 
